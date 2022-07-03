@@ -1,5 +1,6 @@
-package cinema.domain.seat.entity;
+package cinema.domain.cinema.entity;
 
+import cinema.domain.seat.entity.Seat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 public class Cinema {
