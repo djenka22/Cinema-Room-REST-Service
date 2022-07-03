@@ -44,14 +44,16 @@ public class TicketRepository {
         }
     }
 
-    public Set<Ticket> getPurchasedTickets() {
+    public static Set<Ticket> getPurchasedTickets() {
         return PURCHASED_TICKETS;
     }
 
     public TicketResponse returnTicket(Token token) {
-        return new TicketResponse(
-                findByToken(token).getSeat()
-        );
+        Ticket ticket = findByToken(token);
+        TicketResponse response = new TicketResponse(ticket.getSeat());
+        PURCHASED_TICKETS.remove(ticket);
+        return response;
+
     }
 
     private Ticket findByToken(Token token) {

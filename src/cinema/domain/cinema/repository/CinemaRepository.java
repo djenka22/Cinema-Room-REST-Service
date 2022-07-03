@@ -1,5 +1,11 @@
 package cinema.domain.cinema.repository;
+import cinema.domain.cinema.entity.Cinema;
+import cinema.domain.cinema.entity.CinemaStatistics;
 import cinema.domain.seat.entity.Seat;
+import cinema.domain.ticket.entity.Ticket;
+import cinema.domain.ticket.repository.TicketRepository;
+import cinema.infrastructure.exceptions.cinema.CinemaException;
+import cinema.infrastructure.exceptions.ticket.TicketException;
 import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -39,6 +45,28 @@ public class CinemaRepository {
     }
 
 
+    public CinemaStatistics getCinemaStatistics(String password) {
 
+        if (password == null) {
+            throw new CinemaException("The password is wrong!");
+        }
 
+        Integer income = getCurrentIncome();
+        Integer numberOfAvailableSeats =
+                SEATS.size() - TicketRepository.getPurchasedTickets().size();
+        Integer numberOfPurchasedTickets =
+                TicketRepository.getPurchasedTickets().size();
+
+        return new CinemaStatistics(
+                income, numberOfAvailableSeats, numberOfPurchasedTickets
+        );
+    }
+
+    private int getCurrentIncome () {
+        int income = 0;
+        for (Ticket ticket : TicketRepository.getPurchasedTickets()) {
+            income += ticket.getSeat().getPrice();
+        }
+        return income;
+    }
 }

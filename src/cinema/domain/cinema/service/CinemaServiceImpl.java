@@ -1,5 +1,6 @@
 package cinema.domain.cinema.service;
 import cinema.domain.cinema.entity.Cinema;
+import cinema.domain.cinema.entity.CinemaStatistics;
 import cinema.domain.cinema.repository.CinemaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,5 +23,10 @@ public class CinemaServiceImpl implements CinemaService {
                 cinemaRepository.getTotalColumns(),
                 cinemaRepository.getAllSeats()
         );
+    }
+
+    @Override
+    public CinemaStatistics getCinemaStatistics(String password) {
+        return cinemaRepository.getCinemaStatistics(password);
     }
 }
